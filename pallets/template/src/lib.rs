@@ -102,15 +102,16 @@ pub mod pallet {
 		}
 
 		#[pallet::weight(10_000 + T::DbWeight::get().writes(1).ref_time())]
- 		pub fn remove_number (origin: OriginFor<T>, number: u32) -> DispatchResult {
+ 		pub fn remove_number (origin: OriginFor<T>) -> DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			let who = ensure_signed(origin)?;
-
+			
 			//Remove number following accountId
 			<Number<T>>::remove(who.clone());
 			
 			// Emit an event.
+			let number: u32 = 10;
 			Self::deposit_event(Event::SomethingStored(number, who));
 
 			Ok(())
